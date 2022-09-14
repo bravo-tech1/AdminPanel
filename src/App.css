@@ -1,0 +1,57 @@
+.container{
+    display: flex;
+    margin-top: 10px;
+}
+
+
+.link{
+    text-decoration: none;
+    color: inherit;
+}
+.new{
+    color: #2a7ade;
+    background: #ebf1fe;
+}
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitle{
+    color: #ff5959;
+    font-weight: bold !important;
+}
+.userListUser{
+    color: #fdac53 !important;
+}
+.serviceNameC{
+    color: #fdac53 !important;
+}
+.serviceNameC2{
+    color: #d95087 !important;
+    background-color: #fff0f1;
+    line-height: 1.8;
+    border-radius: 12px;
+    padding: 10px;
+}
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }
+

@@ -1,0 +1,49 @@
+.userList {
+  flex: 4;
+}
+
+.userListUser {
+  display: flex;
+  align-items: center;
+}
+
+.userListImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.userListEdit{
+  line-height: 1.6;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #3bb077;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.userListDelete{
+    color: red;
+    cursor: pointer;
+}
+.approved{
+  line-height: 1.6;
+  background-color: #ebf1fe;
+  color: #3bb077;
+  border-radius: 12px;
+  padding: 7px;
+  margin: 0;
+
+}
+.pending{
+  line-height: 1.6;
+  color: #2a7ade;
+  background-color: #ebf1fe;
+  border-radius: 12px;
+  padding: 7px;
+  margin: 0;
+}
