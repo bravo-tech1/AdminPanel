@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Loading from "../../components/Loading/Loading.jsx";
 
 export default function State() {
-  const [state_id, setStateId] = useState(1);
+  const [state_id, setStateId] = useState();
   const [data, setData] = useState([]);
   const [city_name_en, setcity_name_en] = useState();
   const [city_name_ar, setcity_name_ar] = useState();
