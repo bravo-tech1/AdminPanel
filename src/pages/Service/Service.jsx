@@ -10,6 +10,8 @@ export default function Service() {
   const [departmentId, setDepartmentId] = useState(1);
   const [ar_text, setArText] = useState();
   const [en_text, setEnText] = useState();
+  const [service_desc_en, setservice_desc_en] = useState();
+  const [service_desc_ar, setservice_desc_ar] = useState();
   const [service_video, setServiceVideo] = useState();
   const [loading, SetLoading] = useState(false);
 
@@ -37,6 +39,8 @@ export default function Service() {
     const formData = new FormData();
     formData.append("service_text_ar", ar_text);
     formData.append("service_text_en", en_text);
+    formData.append("service_desc_en", service_desc_en);
+    formData.append("service_desc_ar", service_desc_ar);
     formData.append("service_video", service_video);
     formData.append("department_id", departmentId);
 
@@ -115,6 +119,26 @@ export default function Service() {
               onChange={(e) => setArText(e.target.value)}
             />
           </div>
+          <div className="addProductItem">
+          <label>Service's Description(English)</label>
+          <input
+            type="text"
+            placeholder="Description"
+            name="service_desc_en"
+            value={service_desc_en}
+            onChange={(e) => setservice_desc_en(e.target.value)}
+          />
+        </div>
+        <div className="addProductItem">
+          <label>Service's Description(Arabic)</label>
+          <input
+            type="text"
+            placeholder="Description"
+            name="service_desc_ar"
+            value={service_desc_ar}
+            onChange={(e) => setservice_desc_ar(e.target.value)}
+          />
+        </div>
           <div className="addProductItem">
             <label>Service's Vedio</label>
             <input
