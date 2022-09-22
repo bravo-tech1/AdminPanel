@@ -103,18 +103,8 @@ export default function NewState() {
               value={details_text1_en}
               onChange={(e) => setdetails_text1_en(e.target.value)}
             />
-            <div className="addProductItem">
-              <label>Package Image</label>
-              <input
-                type="file"
-                id="file"
-                multiple
-                onChange={(e) => setpack_image(e.target.files.item(0))}
-              />
-            </div>
+            
           </div>
-        </div>
-        <div className="col-md-6">
           <div className="addProductItem">
             <label>Package Description (Arabic)</label>
             <input
@@ -123,26 +113,6 @@ export default function NewState() {
               name="details_text1_ar"
               value={details_text1_ar}
               onChange={(e) => setdetails_text1_ar(e.target.value)}
-            />
-          </div>
-          <div className="addProductItem">
-            <label>Package Description 2 (English)</label>
-            <input
-              type="text"
-              placeholder="Package Descriptiony 2 (English)"
-              name="details_text2_en"
-              value={details_text2_en}
-              onChange={(e) => setdetails_text2_en(e.target.value)}
-            />
-          </div>
-          <div className="addProductItem">
-            <label>Package Description 2 (Arabic)</label>
-            <input
-              type="text"
-              placeholder="Package Description (Arabic)"
-              name="details_text2_ar"
-              value={details_text2_ar}
-              onChange={(e) => setdetails_text2_ar(e.target.value)}
             />
           </div>
           <div className="addProductItem">
@@ -155,7 +125,20 @@ export default function NewState() {
               onChange={(e) => setpackage_period(e.target.value)}
             />
           </div>
+         
           <div className="addProductItem">
+              <label>Package Image</label>
+              <input
+                type="file"
+                id="file"
+                multiple
+                onChange={(e) => setpack_image(e.target.files.item(0))}
+              />
+            </div>
+        </div>
+        <div className="col-md-6">
+        
+        <div className="addProductItem">
             <label> Package Price</label>
             <input
               type="number"
@@ -165,6 +148,30 @@ export default function NewState() {
               onChange={(e) => setpackage_price(e.target.value)}
             />
           </div>
+         
+          <div className="addProductItem">
+            <label>Package Deatils (English)</label>
+            <textarea
+            rows='10'
+              type="text"
+              placeholder="Package Deatils (English)"
+              name="details_text2_en"
+              value={details_text2_en}
+              onChange={(e) => setdetails_text2_en(e.target.value)}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Package Deatils (Arabic)</label>
+            <textarea
+            rows='10'
+              type="text"
+              placeholder="Package Description (Arabic)"
+              name="details_text2_ar"
+              value={details_text2_ar}
+              onChange={(e) => setdetails_text2_ar(e.target.value)}
+            />
+          </div>
+
 
           <button className="addProductButton" type="submit">
             Create
