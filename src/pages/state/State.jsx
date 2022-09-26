@@ -152,7 +152,7 @@ export default function State() {
           </div>
 
           <button className="addProductButton" type="submit">
-            Create
+            Update
           </button>
           {loading && <Loading />}
         </form>
