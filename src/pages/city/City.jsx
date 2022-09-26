@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 
 export default function State() {
-    const [state_id, setStateId] = useState(1)
+    const [state_id, setStateId] = useState()
     const [data, setData] = useState([])
     const [city_name_en, setcity_name_en] = useState();
     const [city_name_ar, setcity_name_ar] = useState();
@@ -57,6 +57,9 @@ export default function State() {
       <div className="newUserItem">
           <label>Choose State</label>
           <select className="newUserSelect" name="state_id" id="active" onChange={(e) => setStateId(e.target.value)} value={state_id} required>
+          <option selected disabled>
+                Choose one
+              </option>
             {stateTitle}
           </select>
         </div>

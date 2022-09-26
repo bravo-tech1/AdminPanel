@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Loading from "../../components/Loading/Loading.jsx";
 
 export default function State() {
-  const [hotel_id, sethotel_id] = useState(1);
+  const [hotel_id, sethotel_id] = useState();
   const [data, setData] = useState([]);
   const [details_title_en, setdetails_title_en] = useState();
   const [details_text2_en, setdetails_text2_en] = useState();
@@ -80,6 +80,9 @@ export default function State() {
               value={hotel_id}
               required
             >
+              <option selected disabled>
+                Choose one
+              </option>
               {hotelTitle}
             </select>
           </div>

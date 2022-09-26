@@ -7,7 +7,7 @@ import Loading from "../../components/Loading/Loading.jsx";
 export default function Service() {
   const [data, setData] = useState("Loading....");
   const [dataS, setDataS] = useState([]);
-  const [departmentId, setDepartmentId] = useState(1);
+  const [departmentId, setDepartmentId] = useState();
   const [ar_text, setArText] = useState();
   const [en_text, setEnText] = useState();
   const [service_desc_en, setservice_desc_en] = useState();
@@ -88,6 +88,7 @@ export default function Service() {
         <form className="addProductForm" onSubmit={handleSubmit}>
           <div className="newUserItem">
             <label>Choose Department</label>
+
             <select
               className="newUserSelect"
               name="hotel_id"
@@ -96,6 +97,9 @@ export default function Service() {
               value={departmentId}
               required
             >
+              <option selected disabled>
+                Choose one
+              </option>
               {departmentid}
             </select>
           </div>

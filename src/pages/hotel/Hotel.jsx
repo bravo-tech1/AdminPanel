@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function State() {
-  const [city_id, setcity_id] = useState(1);
+  const [city_id, setcity_id] = useState();
   const [data, setData] = useState([]);
   const [hotel_name_en, sethotel_name_en] = useState();
   const [hotel_name_ar, sethotel_name_ar] = useState();
@@ -67,6 +67,9 @@ export default function State() {
               value={city_id}
               required
             >
+              <option selected disabled>
+                Choose one
+              </option>
               {stateTitle}
             </select>
           </div>
