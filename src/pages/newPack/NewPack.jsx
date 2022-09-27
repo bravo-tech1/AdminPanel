@@ -2,6 +2,52 @@ import "../newState/newState.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
+import ReactQuill, { Quill } from "react-quill";
+
+// #1 import quill-image-uploader
+import ImageUploader from "quill-image-uploader";
+
+import "react-quill/dist/quill.snow.css";
+
+const modules = {
+  toolbar: [
+    [{ font: [] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    ["blockquote", "code-block"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  imageUploader: {
+    upload: (file) => {
+      return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        fetch(
+          "https://api.imgbb.com/1/upload?key=d8b8d83a8810c689d5b6ebc1d4152df7",
+          {
+            method: "POST",
+            body: formData,
+          }
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            resolve(result.data.url);
+          })
+          .catch((error) => {
+            reject("Upload failed");
+            console.error("Error:", error);
+          });
+      });
+    },
+  },
+};
 
 export default function NewState() {
   const [hotel_id, sethotel_id] = useState();
@@ -17,6 +63,11 @@ export default function NewState() {
   const [pack_image, setpack_image] = useState();
   const [loading, SetLoading] = useState(false);
 
+  // #2 register module
+  Quill.register("modules/imageUploader", ImageUploader);
+  const [value, setValue] = useState("");
+  console.log(value);
+
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/hotel/show")
       .then((res) => res.json())
@@ -31,10 +82,10 @@ export default function NewState() {
     const formData = new FormData();
     formData.append("hotel_id", hotel_id);
     formData.append("details_title_en", details_title_en);
-    formData.append("details_text2_en", details_text2_en);
+    formData.append("details_text2_en", value);
     formData.append("details_text1_en", details_text1_en);
     formData.append("details_title_ar", details_title_ar);
-    formData.append("details_text2_ar", details_text2_ar);
+    formData.append("details_text2_ar", value);
     formData.append("details_text1_ar", details_text1_ar);
     formData.append("package_period", package_period);
     formData.append("package_price", package_price);
@@ -103,7 +154,6 @@ export default function NewState() {
               value={details_text1_en}
               onChange={(e) => setdetails_text1_en(e.target.value)}
             />
-            
           </div>
           <div className="addProductItem">
             <label>Package Description (Arabic)</label>
@@ -125,20 +175,19 @@ export default function NewState() {
               onChange={(e) => setpackage_period(e.target.value)}
             />
           </div>
-         
+
           <div className="addProductItem">
-              <label>Package Image</label>
-              <input
-                type="file"
-                id="file"
-                multiple
-                onChange={(e) => setpack_image(e.target.files.item(0))}
-              />
-            </div>
+            <label>Package Image</label>
+            <input
+              type="file"
+              id="file"
+              multiple
+              onChange={(e) => setpack_image(e.target.files.item(0))}
+            />
+          </div>
         </div>
         <div className="col-md-6">
-        
-        <div className="addProductItem">
+          <div className="addProductItem">
             <label> Package Price</label>
             <input
               type="number"
@@ -148,8 +197,15 @@ export default function NewState() {
               onChange={(e) => setpackage_price(e.target.value)}
             />
           </div>
-         
-          <div className="addProductItem">
+
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            placeholder="Content goes here..."
+            onChange={setValue}
+          />
+
+          {/* <div className="addProductItem">
             <label>Package Deatils (English)</label>
             <textarea
             rows='10'
@@ -170,8 +226,7 @@ export default function NewState() {
               value={details_text2_ar}
               onChange={(e) => setdetails_text2_ar(e.target.value)}
             />
-          </div>
-
+          </div> */}
 
           <button className="addProductButton" type="submit">
             Create
