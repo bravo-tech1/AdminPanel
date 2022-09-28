@@ -13,7 +13,6 @@ export default function NewService() {
   const [service_video, setServiceVideo] = useState();
 
   const [loading, SetLoading] = useState(false);
-  console.log(departmentId);
 
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/Department/show")

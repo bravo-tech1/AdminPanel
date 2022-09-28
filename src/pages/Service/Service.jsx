@@ -31,7 +31,6 @@ export default function Service() {
       .then((res) => res.json())
       .then((data) => setData(data.find((x) => x.id === id)));
   }, []);
-  console.log(data);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -124,25 +123,25 @@ export default function Service() {
             />
           </div>
           <div className="addProductItem">
-          <label>Service's Description(English)</label>
-          <input
-            type="text"
-            placeholder="Description"
-            name="service_desc_en"
-            value={service_desc_en}
-            onChange={(e) => setservice_desc_en(e.target.value)}
-          />
-        </div>
-        <div className="addProductItem">
-          <label>Service's Description(Arabic)</label>
-          <input
-            type="text"
-            placeholder="Description"
-            name="service_desc_ar"
-            value={service_desc_ar}
-            onChange={(e) => setservice_desc_ar(e.target.value)}
-          />
-        </div>
+            <label>Service's Description(English)</label>
+            <input
+              type="text"
+              placeholder="Description"
+              name="service_desc_en"
+              value={service_desc_en}
+              onChange={(e) => setservice_desc_en(e.target.value)}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Service's Description(Arabic)</label>
+            <input
+              type="text"
+              placeholder="Description"
+              name="service_desc_ar"
+              value={service_desc_ar}
+              onChange={(e) => setservice_desc_ar(e.target.value)}
+            />
+          </div>
           <div className="addProductItem">
             <label>Service's Vedio</label>
             <input

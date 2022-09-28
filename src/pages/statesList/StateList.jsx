@@ -6,31 +6,27 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
 export default function ProductList() {
   const [data, setData] = useState([]);
   const [serviceData, setServicData] = useState([]);
 
-  console.log(data)
-
-
   const handleDelete = async (id) => {
-        await axios.delete(`https://test.emkanfinances.net/api/state/delete/${id}`).then(() => {
-          setData(data.filter((el) => el.id !== id));
-        })
-        
-
-}
-  useEffect(()=>{
+    await axios
+      .delete(`https://test.emkanfinances.net/api/state/delete/${id}`)
+      .then(() => {
+        setData(data.filter((el) => el.id !== id));
+      });
+  };
+  useEffect(() => {
     fetch("https://test.emkanfinances.net/api/state/show")
-      .then(res => res.json())
-      .then(data => setData(data))
-    },[])
-    useEffect(() => {
-      fetch('https://test.emkanfinances.net/api/service/show')
-        .then(res => res.json())
-        .then(data => setServicData(data))
-    },[])
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/service/show")
+      .then((res) => res.json())
+      .then((data) => setServicData(data));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -39,11 +35,7 @@ export default function ProductList() {
       headerName: "Service Name",
       width: 150,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.service_id}
-          </div>
-        );
+        return <div className="productListItem">{params.row.service_id}</div>;
       },
     },
     {
@@ -64,26 +56,22 @@ export default function ProductList() {
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="productListItem">
-            {params.row.state_title_ar}
-          </div>
+          <div className="productListItem">{params.row.state_title_ar}</div>
         );
       },
     },
-    
+
     {
       field: "state_text",
       headerName: "State Description",
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="productListItem">
-            {params.row.state_text_en}
-          </div>
+          <div className="productListItem">{params.row.state_text_en}</div>
         );
       },
     },
-    
+
     {
       field: "action",
       headerName: "Action",

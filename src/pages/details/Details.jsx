@@ -36,7 +36,6 @@ const modules = {
         )
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             resolve(result.data.url);
           })
           .catch((error) => {

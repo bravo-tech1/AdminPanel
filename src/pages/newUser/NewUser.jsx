@@ -13,8 +13,6 @@ export default function NewUser() {
   const [userType, setUserType] = useState("user");
   const [loading, SetLoading] = useState(false);
 
-  console.log(accept);
-
   let handleSubmit = async (e) => {
     e.preventDefault();
     SetLoading(true);

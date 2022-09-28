@@ -6,30 +6,27 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
-
 export default function PackagesList() {
   const [data, setData] = useState([]);
   const [serviceData, setServicData] = useState([]);
 
-  console.log(data)
   const handleDelete = async (id) => {
-        await axios.delete(`https://test.emkanfinances.net/api/video/delete/${id}`).then(() => {
-          setData(data.filter((el) => el.id !== id));
-        })
-        
-
-}
-  useEffect(()=>{
+    await axios
+      .delete(`https://test.emkanfinances.net/api/video/delete/${id}`)
+      .then(() => {
+        setData(data.filter((el) => el.id !== id));
+      });
+  };
+  useEffect(() => {
     fetch("https://test.emkanfinances.net/api/video/show")
-      .then(res => res.json())
-      .then(data => setData(data))
-    },[])
-    useEffect(() => {
-      fetch('https://test.emkanfinances.net/api/package/show')
-        .then(res => res.json())
-        .then(data => setServicData(data))
-    },[])
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/package/show")
+      .then((res) => res.json())
+      .then((data) => setServicData(data));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -38,14 +35,10 @@ export default function PackagesList() {
       headerName: "Package",
       width: 150,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.package_id}
-          </div>
-        );
+        return <div className="productListItem">{params.row.package_id}</div>;
       },
     },
-    
+
     {
       field: "Image",
       headerName: "Video",
@@ -59,9 +52,6 @@ export default function PackagesList() {
       },
     },
 
-   
-   
-    
     {
       field: "action",
       headerName: "Action",
