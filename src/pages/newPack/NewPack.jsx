@@ -2,71 +2,20 @@ import "../newState/newState.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
-import ReactQuill, { Quill } from "react-quill";
-
-// #1 import quill-image-uploader
-import ImageUploader from "quill-image-uploader";
-
-import "react-quill/dist/quill.snow.css";
-
-const modules = {
-  toolbar: [
-    [{ font: [] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ color: [] }, { background: [] }],
-    [{ script: "sub" }, { script: "super" }],
-    ["blockquote", "code-block"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
-    ["link", "image", "video"],
-    ["clean"],
-  ],
-  imageUploader: {
-    upload: (file) => {
-      return new Promise((resolve, reject) => {
-        const formData = new FormData();
-        formData.append("image", file);
-
-        fetch(
-          "https://api.imgbb.com/1/upload?key=d8b8d83a8810c689d5b6ebc1d4152df7",
-          {
-            method: "POST",
-            body: formData,
-          }
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            console.log(result);
-            resolve(result.data.url);
-          })
-          .catch((error) => {
-            reject("Upload failed");
-            console.error("Error:", error);
-          });
-      });
-    },
-  },
-};
 
 export default function NewState() {
   const [hotel_id, sethotel_id] = useState();
   const [data, setData] = useState([]);
   const [details_title_en, setdetails_title_en] = useState();
-  const [details_text2_en, setdetails_text2_en] = useState();
+
   const [details_text1_en, setdetails_text1_en] = useState();
   const [details_title_ar, setdetails_title_ar] = useState();
-  const [details_text2_ar, setdetails_text2_ar] = useState();
+
   const [details_text1_ar, setdetails_text1_ar] = useState();
   const [package_period, setpackage_period] = useState();
   const [package_price, setpackage_price] = useState();
   const [pack_image, setpack_image] = useState();
   const [loading, SetLoading] = useState(false);
-
-  // #2 register module
-  Quill.register("modules/imageUploader", ImageUploader);
-  const [value, setValue] = useState("");
-  console.log(value);
 
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/hotel/show")
@@ -82,10 +31,8 @@ export default function NewState() {
     const formData = new FormData();
     formData.append("hotel_id", hotel_id);
     formData.append("details_title_en", details_title_en);
-    formData.append("details_text2_en", value);
     formData.append("details_text1_en", details_text1_en);
     formData.append("details_title_ar", details_title_ar);
-    formData.append("details_text2_ar", value);
     formData.append("details_text1_ar", details_text1_ar);
     formData.append("package_period", package_period);
     formData.append("package_price", package_price);
@@ -107,7 +54,11 @@ export default function NewState() {
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Package</h1>
-      <form className="addProductForm flex" onSubmit={handleSubmit}>
+      <form
+        className="addProductForm flex"
+        style={{ justifyContent: "start" }}
+        onSubmit={handleSubmit}
+      >
         <div className="col-md-6">
           <div className="newUserItem">
             <label>Choose Hotel</label>
@@ -165,6 +116,8 @@ export default function NewState() {
               onChange={(e) => setdetails_text1_ar(e.target.value)}
             />
           </div>
+        </div>
+        <div className="col-md-6">
           <div className="addProductItem">
             <label> Package Period</label>
             <input
@@ -177,17 +130,6 @@ export default function NewState() {
           </div>
 
           <div className="addProductItem">
-            <label>Package Image</label>
-            <input
-              type="file"
-              id="file"
-              multiple
-              onChange={(e) => setpack_image(e.target.files.item(0))}
-            />
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="addProductItem">
             <label> Package Price</label>
             <input
               type="number"
@@ -197,36 +139,15 @@ export default function NewState() {
               onChange={(e) => setpackage_price(e.target.value)}
             />
           </div>
-
-          <ReactQuill
-            theme="snow"
-            modules={modules}
-            placeholder="Content goes here..."
-            onChange={setValue}
-          />
-
-          {/* <div className="addProductItem">
-            <label>Package Deatils (English)</label>
-            <textarea
-            rows='10'
-              type="text"
-              placeholder="Package Deatils (English)"
-              name="details_text2_en"
-              value={details_text2_en}
-              onChange={(e) => setdetails_text2_en(e.target.value)}
+          <div className="addProductItem">
+            <label>Package Image</label>
+            <input
+              type="file"
+              id="file"
+              multiple
+              onChange={(e) => setpack_image(e.target.files.item(0))}
             />
           </div>
-          <div className="addProductItem">
-            <label>Package Deatils (Arabic)</label>
-            <textarea
-            rows='10'
-              type="text"
-              placeholder="Package Description (Arabic)"
-              name="details_text2_ar"
-              value={details_text2_ar}
-              onChange={(e) => setdetails_text2_ar(e.target.value)}
-            />
-          </div> */}
 
           <button className="addProductButton" type="submit">
             Create

@@ -5,31 +5,29 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import HTMLReactParser from "html-react-parser";
 
-
-
-export default function PackagesList() {
+export default function DeatilsList() {
   const [data, setData] = useState([]);
   const [serviceData, setServicData] = useState([]);
 
-  console.log(data)
   const handleDelete = async (id) => {
-        await axios.delete(`https://test.emkanfinances.net/api/image/delete/${id}`).then(() => {
-          setData(data.filter((el) => el.id !== id));
-        })
-        
-
-}
-  useEffect(()=>{
-    fetch("https://test.emkanfinances.net/api/image/show")
-      .then(res => res.json())
-      .then(data => setData(data))
-    },[])
-    useEffect(() => {
-      fetch('https://test.emkanfinances.net/api/package/show')
-        .then(res => res.json())
-        .then(data => setServicData(data))
-    },[])
+    await axios
+      .delete(`https://test.emkanfinances.net/api/detail/delete/${id}`)
+      .then(() => {
+        setData(data.filter((el) => el.id !== id));
+      });
+  };
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/detail/show")
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/package/show")
+      .then((res) => res.json())
+      .then((data) => setServicData(data));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -38,30 +36,35 @@ export default function PackagesList() {
       headerName: "Package",
       width: 150,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.package_id}
-          </div>
-        );
+        return <div className="productListItem">{params.row.package_id}</div>;
       },
     },
-    
+
     {
-      field: "Image",
-      headerName: "Image",
+      field: "English Text",
+      headerName: "English Text",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img src={params.row.img} />
+            {HTMLReactParser(params.row.text_en)}
+          </div>
+        );
+      },
+    },
+    {
+      field: "Arabic Text",
+      headerName: "Arabic Text",
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            {HTMLReactParser(params.row.text_ar)}
           </div>
         );
       },
     },
 
-   
-   
-    
     {
       field: "action",
       headerName: "Action",
@@ -69,6 +72,9 @@ export default function PackagesList() {
       renderCell: (params) => {
         return (
           <>
+            <Link to={"/detail/update/" + params.row.id}>
+              <button className="productListEdit">Edit</button>
+            </Link>
             <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}

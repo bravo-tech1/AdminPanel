@@ -21,8 +21,9 @@ import Hotel from "./pages/hotel/Hotel";
 import PackageList from "./pages/packagesList/PackagesList";
 import NewPackage from "./pages/newPack/NewPack";
 import Package from "./pages/package/Package";
-import PackagesImageList from "./pages/packageImageList/PackagesListImage";
-import NewPackImage from "./pages/newPackImage/NewPackImage";
+import Deatils from "./pages/deatilsList/DeatilsList";
+import NewDeatils from "./pages/newDeatils/NewDeatils";
+import Deatil from "./pages/details/Details";
 import PackagesVideoList from "./pages/packageVedioLIst/PackagesVedioList";
 import NewPackVideo from "./pages/NewPackageVedio/NewPackVideo";
 import DepartmentList from "./pages/DepartmentLIst/DepartmentList";
@@ -92,11 +93,14 @@ function App() {
           <Route path="/package/update/:packageId">
             <Package />
           </Route>
-          <Route path="/packagesimg">
-            <PackagesImageList />
+          <Route path="/deatils">
+            <Deatils />
           </Route>
-          <Route path="/packageimg/create">
-            <NewPackImage />
+          <Route path="/deatil/create">
+            <NewDeatils />
+          </Route>
+          <Route path="/detail/update/:detaillId">
+            <Deatil />
           </Route>
           <Route path="/packagesvideo">
             <PackagesVideoList />

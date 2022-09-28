@@ -110,16 +110,16 @@ export default function Sidebar() {
                 New Package
               </li>
             </Link>
-            <Link to="/packagesimg" className="link">
+            <Link to="/deatils" className="link">
               <li className="sidebarListItem newTitle">
                 <InventoryIcon className="sidebarIcon" />
-                Packages's Images
+                Packages Deatils
               </li>
             </Link>
-            <Link to="/packageimg/create" className="link">
+            <Link to="/deatil/create" className="link">
               <li className="sidebarListItem new">
                 <AddIcon className="sidebarIcon" />
-                New Package's Images
+                New Deatils
               </li>
             </Link>
             <Link to="/packagesvideo" className="link">

@@ -8,10 +8,8 @@ export default function State() {
   const [hotel_id, sethotel_id] = useState();
   const [data, setData] = useState([]);
   const [details_title_en, setdetails_title_en] = useState();
-  const [details_text2_en, setdetails_text2_en] = useState();
   const [details_text1_en, setdetails_text1_en] = useState();
   const [details_title_ar, setdetails_title_ar] = useState();
-  const [details_text2_ar, setdetails_text2_ar] = useState();
   const [details_text1_ar, setdetails_text1_ar] = useState();
   const [package_period, setpackage_period] = useState();
   const [package_price, setpackage_price] = useState();
@@ -34,10 +32,10 @@ export default function State() {
     const formData = new FormData();
     formData.append("hotel_id", hotel_id);
     formData.append("details_title_en", details_title_en);
-    formData.append("details_text2_en", details_text2_en);
+
     formData.append("details_text1_en", details_text1_en);
     formData.append("details_title_ar", details_title_ar);
-    formData.append("details_text2_ar", details_text2_ar);
+
     formData.append("details_text1_ar", details_text1_ar);
     formData.append("package_period", package_period);
     formData.append("package_price", package_price);
@@ -126,26 +124,7 @@ export default function State() {
               onChange={(e) => setdetails_text1_ar(e.target.value)}
             />
           </div>
-          <div className="addProductItem">
-            <label>Package Description 2 (English)</label>
-            <input
-              type="text"
-              placeholder="Package Descriptiony 2 (English)"
-              name="details_text2_en"
-              value={details_text2_en}
-              onChange={(e) => setdetails_text2_en(e.target.value)}
-            />
-          </div>
-          <div className="addProductItem">
-            <label>Package Description 2 (Arabic)</label>
-            <input
-              type="text"
-              placeholder="Package Description (Arabic)"
-              name="details_text2_ar"
-              value={details_text2_ar}
-              onChange={(e) => setdetails_text2_ar(e.target.value)}
-            />
-          </div>
+
           <div className="addProductItem">
             <label> Package Period</label>
             <input
