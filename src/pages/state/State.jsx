@@ -27,6 +27,24 @@ export default function State() {
 
   const id = Number(window.location.pathname.replace("/states/update/", ""));
 
+  let update;
+  useEffect(() => {
+    fetch(`https://test.emkanfinances.net/api/state/show`)
+      .then((res) => res.json())
+      .then((data) => {
+        update = data.filter((item) => item.id === id);
+        setServiceId(update[0].service_id);
+        setstate_title_ar(update[0].state_title_ar);
+        setstate_title_secondary_ar(update[0].state_title_secondary_ar);
+        setstate_text_ar(update[0].state_text_ar);
+        setstate_text_ar(update[0].state_text_ar);
+        setstate_title_en(update[0].state_title_en);
+        setstate_title_secondary_en(update[0].state_title_secondary_en);
+        setstate_text_en(update[0].state_text_en);
+        setstate_image(update[0].state_image);
+      });
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     SetLoading(true);

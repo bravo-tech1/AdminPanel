@@ -6,29 +6,27 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-
 export default function PackagesList() {
   const [data, setData] = useState([]);
   const [serviceData, setServicData] = useState([]);
 
-
   const handleDelete = async (id) => {
-        await axios.delete(`https://test.emkanfinances.net/api/package/delete/${id}`).then(() => {
-          setData(data.filter((el) => el.id !== id));
-        })
-        
-
-}
-  useEffect(()=>{
+    await axios
+      .delete(`https://test.emkanfinances.net/api/package/delete/${id}`)
+      .then(() => {
+        setData(data.filter((el) => el.id !== id));
+      });
+  };
+  useEffect(() => {
     fetch("https://test.emkanfinances.net/api/package/show")
-      .then(res => res.json())
-      .then(data => setData(data))
-    },[])
-    useEffect(() => {
-      fetch('https://test.emkanfinances.net/api/hotel/show')
-        .then(res => res.json())
-        .then(data => setServicData(data))
-    },[])
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, []);
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/hotel/show")
+      .then((res) => res.json())
+      .then((data) => setServicData(data));
+  }, []);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -37,11 +35,7 @@ export default function PackagesList() {
       headerName: "Hotel",
       width: 50,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.hotel_id}
-          </div>
-        );
+        return <div className="productListItem">{params.row.hotel_id}</div>;
       },
     },
     {
@@ -50,9 +44,7 @@ export default function PackagesList() {
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="productListItem">
-            {params.row.details_title_en}
-          </div>
+          <div className="productListItem">{params.row.details_title_en}</div>
         );
       },
     },
@@ -62,38 +54,28 @@ export default function PackagesList() {
       width: 200,
       renderCell: (params) => {
         return (
-          <div className="productListItem">
-            {params.row.details_title_ar}
-          </div>
+          <div className="productListItem">{params.row.details_title_ar}</div>
         );
       },
     },
-    
+
     {
-      field: "details_text1_en",
-      headerName: "Description(en)",
+      field: "period",
+      headerName: "From",
       width: 200,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.details_text1_en}
-          </div>
-        );
+        return <div className="productListItem">{params.row.period_from}</div>;
       },
     },
     {
-      field: "details_text1_ar",
-      headerName: "Description(ar)",
+      field: "periodTo",
+      headerName: "To",
       width: 200,
       renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.details_text1_ar}
-          </div>
-        );
+        return <div className="productListItem">{params.row.period_to}</div>;
       },
     },
-    
+
     {
       field: "action",
       headerName: "Action",
@@ -122,6 +104,7 @@ export default function PackagesList() {
         columns={columns}
         pageSize={8}
         checkboxSelection
+        key={data.map((item) => item.id)}
       />
     </div>
   );

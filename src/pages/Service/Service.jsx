@@ -31,6 +31,20 @@ export default function Service() {
       .then((res) => res.json())
       .then((data) => setData(data.find((x) => x.id === id)));
   }, []);
+  let update;
+  useEffect(() => {
+    fetch(`https://test.emkanfinances.net/api/service/show`)
+      .then((res) => res.json())
+      .then((data) => {
+        update = data.filter((item) => item.id === id);
+        setDepartmentId(update[0].department_id);
+        setEnText(update[0].service_text_en);
+        setArText(update[0].service_text_ar);
+        setservice_desc_en(update[0].service_desc_en);
+        setservice_desc_ar(update[0].service_desc_ar);
+        setServiceVideo(update[0].service_video);
+      });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();

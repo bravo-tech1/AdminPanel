@@ -10,7 +10,24 @@ export default function State() {
   const [hotel_name_ar, sethotel_name_ar] = useState();
   const [hotel_location_en, sethotel_location_en] = useState();
   const [hotel_location_ar, sethotel_location_ar] = useState();
+  const [location_url, setlocation_url] = useState();
   const [hotel_image, sethotel_image] = useState();
+  let update;
+  const id = Number(window.location.pathname.replace("/hotel/update/", ""));
+  useEffect(() => {
+    fetch(`https://test.emkanfinances.net/api/hotel/show`)
+      .then((res) => res.json())
+      .then((data) => {
+        update = data.filter((item) => item.id === id);
+        setcity_id(update[0].city_id);
+        sethotel_name_en(update[0].hotel_name_en);
+        sethotel_name_ar(update[0].hotel_name_ar);
+        sethotel_location_en(update[0].hotel_location_en);
+        sethotel_location_ar(update[0].hotel_location_ar);
+        setlocation_url(update[0].location_url);
+        sethotel_image(update[0].hotel_image);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/city/show")
@@ -20,7 +37,6 @@ export default function State() {
   const stateTitle = data.map((item) => (
     <option value={item.id}>{item.city_name_en}</option>
   ));
-  const id = Number(window.location.pathname.replace("/hotel/update/", ""));
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,6 +46,7 @@ export default function State() {
     formData.append("hotel_name_ar", hotel_name_ar);
     formData.append("hotel_location_en", hotel_location_en);
     formData.append("hotel_location_ar", hotel_location_ar);
+    formData.append("location_url", location_url);
     formData.append("hotel_image", hotel_image);
 
     axios
@@ -111,6 +128,16 @@ export default function State() {
               name="hotel_location_ar"
               value={hotel_location_ar}
               onChange={(e) => sethotel_location_ar(e.target.value)}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Location URL</label>
+            <input
+              type="text"
+              placeholder="Location URL"
+              name="location_url"
+              value={location_url}
+              onChange={(e) => setlocation_url(e.target.value)}
             />
           </div>
           <div className="addProductItem">

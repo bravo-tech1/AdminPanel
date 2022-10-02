@@ -49,13 +49,16 @@ const modules = {
 
 export default function NewDeatils() {
   const [packageId, setPackageId] = React.useState();
-  const [data, setData] = React.useState([]);
+  const [data, setData] = useState([]);
+  const [images, setImages] = useState([]);
+  const [text_en, settext_en] = useState("");
+  const [text2_en, settext2_en] = useState("");
+  const [text_ar, settext_ar] = useState("");
+  const [text2_ar, settext2_ar] = useState("");
   const [loading, SetLoading] = useState(false);
 
   // #2 register module
   Quill.register("modules/imageUploader", ImageUploader);
-  const [text_en, settext_en] = useState("");
-  const [text_ar, settext_ar] = useState("");
 
   const id = Number(window.location.pathname.replace("/detail/update/", ""));
 
@@ -74,7 +77,10 @@ export default function NewDeatils() {
     const formData = new FormData();
     formData.append("package_id", packageId);
     formData.append("text_en", text_en);
+    formData.append("text2_en", text2_en);
     formData.append("text_ar", text_ar);
+    formData.append("text2_ar", text2_ar);
+    formData.append("images[]", images);
     axios({
       url: `https://test.emkanfinances.net/api/detail/update/${id}`,
       method: "POST",
@@ -108,24 +114,59 @@ export default function NewDeatils() {
             {packTitle}
           </select>
         </div>
-        <div className="newUserItem">
-          <h2 style={{ marginBottom: "1rem" }}>English Deatils: </h2>
-          <ReactQuill
-            theme="snow"
-            modules={modules}
-            placeholder="Content goes here..."
-            onChange={settext_en}
-          />
-          <h2 style={{ marginBottom: "1rem", marginTop: "1rem" }}>
-            Arabic Deatils:{" "}
-          </h2>
-          <ReactQuill
-            theme="snow"
-            modules={modules}
-            placeholder="Content goes here..."
-            onChange={settext_ar}
-          />
+        <div
+          className="newUserItem flex"
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "20px",
+            width: "100%",
+          }}
+        >
+          <div>
+            <h2 style={{ marginBottom: "1rem" }}>English Deatils: </h2>
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              placeholder="Content goes here..."
+              onChange={settext_en}
+            />
+            <h2 style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+              Secondary Deatils(English):{" "}
+            </h2>
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              placeholder="Content goes here..."
+              onChange={settext2_en}
+            />
+          </div>
+          <div>
+            <h2 style={{ marginBottom: "1rem" }}>Arabic Deatils: </h2>
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              placeholder="Content goes here..."
+              onChange={settext_ar}
+            />
+            <h2 style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+              Secondary Deatils(Arabic):{" "}
+            </h2>
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              placeholder="Content goes here..."
+              onChange={settext2_ar}
+            />
+          </div>
         </div>
+        <input
+          type="file"
+          multiple
+          onChange={(e) => setImages(e.target.files)}
+          style={{ display: "block" }}
+        />
         <button className="addProductButton" type="submit">
           Update
         </button>

@@ -6,32 +6,29 @@ import { DeleteOutline } from "@material-ui/icons";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
-
 export default function UserList() {
-
-
   const [data, setData] = useState([]);
-  const [refresh,setRefresh] = useState(true)
+  const [refresh, setRefresh] = useState(true);
 
   const handleDelete = async (id) => {
-        await axios.delete(`https://test.emkanfinances.net/api/user/delete/${id}`).then(() => {
-          setData(data.filter((el) => el.id !== id));
-        })
-}
+    await axios
+      .delete(`https://test.emkanfinances.net/api/user/delete/${id}`)
+      .then(() => {
+        setData(data.filter((el) => el.id !== id));
+      });
+  };
 
   const handleAccept = async (id) => {
-    await axios.post(`https://test.emkanfinances.net/api/auth/accept/${id}`).then(() =>
-    setRefresh(false)
-    )
-  }
+    await axios
+      .post(`https://test.emkanfinances.net/api/auth/accept/${id}`)
+      .then(() => setRefresh(false));
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch("https://test.emkanfinances.net/api/user/show")
-      .then(res => res.json())
-      .then(data => setData(data))
-    },[refresh])
-
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, [refresh]);
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -40,11 +37,7 @@ export default function UserList() {
       headerName: "User",
       width: 200,
       renderCell: (params) => {
-        return (
-          <div className="userListUser">
-            {params.row.name}
-          </div>
-        );
+        return <div className="userListUser">{params.row.name}</div>;
       },
     },
     { field: "email", headerName: "Email", width: 200 },
@@ -55,12 +48,16 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            {params.row.accepted ? <p className="approved">Approved</p> : <p className="pending">Pending</p>}
+            {params.row.accepted ? (
+              <p className="approved">Approved</p>
+            ) : (
+              <p className="pending">Pending</p>
+            )}
           </div>
         );
       },
     },
-    
+
     {
       field: "action",
       headerName: "Action",
@@ -74,9 +71,7 @@ export default function UserList() {
             <DeleteOutline
               className="userListDelete"
               onClick={() => handleDelete(params.row.id)}
-              
             />
-            
           </>
         );
       },
@@ -88,16 +83,21 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <>
-
-            { params.row.accepted ? '' : <button className="userListEdit" onClick={() => handleAccept(params.row.id)}>Accept</button>}
-            
+            {params.row.accepted ? (
+              ""
+            ) : (
+              <button
+                className="userListEdit"
+                onClick={() => handleAccept(params.row.id)}
+              >
+                Accept
+              </button>
+            )}
           </>
         );
       },
     },
   ];
-
-
 
   return (
     <div className="userList">
@@ -107,6 +107,7 @@ export default function UserList() {
         columns={columns}
         pageSize={8}
         checkboxSelection
+        key={data.map((item) => item.id)}
       />
     </div>
   );

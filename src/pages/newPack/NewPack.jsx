@@ -8,11 +8,13 @@ export default function NewState() {
   const [data, setData] = useState([]);
   const [details_title_en, setdetails_title_en] = useState();
 
-  const [details_text1_en, setdetails_text1_en] = useState();
+  const [details_text1_en, setdetails_text1_en] = useState("none");
   const [details_title_ar, setdetails_title_ar] = useState();
 
-  const [details_text1_ar, setdetails_text1_ar] = useState();
-  const [package_period, setpackage_period] = useState();
+  const [details_text1_ar, setdetails_text1_ar] = useState("none");
+  const [period_from, setperiod_from] = useState();
+  const [period_to, setperiod_to] = useState();
+  const [package_rate, setpackage_rate] = useState();
   const [package_price, setpackage_price] = useState();
   const [pack_image, setpack_image] = useState();
   const [loading, SetLoading] = useState(false);
@@ -34,7 +36,9 @@ export default function NewState() {
     formData.append("details_text1_en", details_text1_en);
     formData.append("details_title_ar", details_title_ar);
     formData.append("details_text1_ar", details_text1_ar);
-    formData.append("package_period", package_period);
+    formData.append("period_from", period_from);
+    formData.append("period_to", period_to);
+    formData.append("package_rate", package_rate);
     formData.append("package_price", package_price);
     formData.append("package_image", pack_image);
 
@@ -56,7 +60,7 @@ export default function NewState() {
       <h1 className="addProductTitle">New Package</h1>
       <form
         className="addProductForm flex"
-        style={{ justifyContent: "start" }}
+        style={{ justifyContent: "start", alignItems: "start" }}
         onSubmit={handleSubmit}
       >
         <div className="col-md-6">
@@ -96,7 +100,7 @@ export default function NewState() {
               onChange={(e) => setdetails_title_en(e.target.value)}
             />
           </div>
-          <div className="addProductItem">
+          {/* <div className="addProductItem">
             <label>Package Description (English)</label>
             <input
               type="text"
@@ -115,17 +119,37 @@ export default function NewState() {
               value={details_text1_ar}
               onChange={(e) => setdetails_text1_ar(e.target.value)}
             />
-          </div>
+          </div> */}
         </div>
         <div className="col-md-6">
           <div className="addProductItem">
-            <label> Package Period</label>
+            <label>Period(From)</label>
+            <input
+              type="text"
+              placeholder="Package Period"
+              name="period_from"
+              value={period_from}
+              onChange={(e) => setperiod_from(e.target.value)}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Period(to)</label>
+            <input
+              type="text"
+              placeholder="Package Period"
+              name="period_to"
+              value={period_to}
+              onChange={(e) => setperiod_to(e.target.value)}
+            />
+          </div>
+          <div className="addProductItem">
+            <label>Rate (Up to 5 Stars)</label>
             <input
               type="number"
-              placeholder="Package Period"
-              name="package_period"
-              value={package_period}
-              onChange={(e) => setpackage_period(e.target.value)}
+              placeholder="Package Rate"
+              name="package_rate"
+              value={package_rate}
+              onChange={(e) => setpackage_rate(e.target.value)}
             />
           </div>
 

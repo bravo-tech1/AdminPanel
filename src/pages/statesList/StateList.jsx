@@ -100,6 +100,7 @@ export default function ProductList() {
         columns={columns}
         pageSize={8}
         checkboxSelection
+        key={data.map((item) => item.id)}
       />
     </div>
   );
