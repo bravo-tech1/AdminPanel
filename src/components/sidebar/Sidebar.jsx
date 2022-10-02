@@ -6,6 +6,7 @@ import DesignServicesRoundedIcon from "@mui/icons-material/DesignServicesRounded
 import AddIcon from "@mui/icons-material/Add";
 import DomainIcon from "@mui/icons-material/Domain";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -26,6 +27,12 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
+            <Link to="/website" className="link">
+              <li className="sidebarListItem newTitle">
+                <OndemandVideoIcon className="sidebarIcon" />
+                WebsiteVideo
+              </li>
+            </Link>
             <Link to="/departments" className="link">
               <li className="sidebarListItem newTitle">
                 <InventoryIcon className="sidebarIcon" />
