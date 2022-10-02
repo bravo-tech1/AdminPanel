@@ -3,7 +3,7 @@ import Topbar from "./components/topbar/Topbar";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import WebsiteVideo from "./pages/WebsiteVedio/WebsiteVedio";
+import WebsiteImage from "./pages/WebsiteImage/WebsiteImage";
 import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
@@ -41,7 +41,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/website">
-            <WebsiteVideo />
+            <WebsiteImage />
           </Route>
           <Route path="/users">
             <UserList />
