@@ -56,7 +56,7 @@ export default function NewDeatils() {
   const [text_ar, settext_ar] = useState("");
   const [text2_ar, settext2_ar] = useState("");
   const [loading, SetLoading] = useState(false);
-  console.log(images);
+
   // #2 register module
   Quill.register("modules/imageUploader", ImageUploader);
 

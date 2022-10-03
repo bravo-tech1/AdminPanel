@@ -2,6 +2,28 @@ import { useState } from "react";
 import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
 
+import ReactQuill, { Quill } from "react-quill";
+
+// #1 import quill-image-uploader
+import ImageUploader from "quill-image-uploader";
+
+import "react-quill/dist/quill.snow.css";
+
+const modules = {
+  toolbar: [
+    [{ font: [] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    ["blockquote", "code-block"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }, { align: [] }],
+    ["link"],
+    ["clean"],
+  ],
+};
+
 export default function WebsiteImage() {
   const [title_en, settitle_en] = useState();
   const [title_ar, settitle_ar] = useState();
@@ -45,24 +67,24 @@ export default function WebsiteImage() {
     <div className="newProduct">
       <h1 className="addProductTitle">Update Image</h1>
       <form className="addProductForm" onSubmit={handleSubmit}>
-        <div className="addProductItem">
+        <div className="addProductItem" style={{ width: "100%" }}>
           <label>Image Title(Arabic)</label>
-          <input
-            type="text"
-            placeholder="Hotel Title(Arabic)"
-            name="title_ar"
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            placeholder="Content goes here..."
+            onChange={settitle_ar}
             value={title_ar}
-            onChange={(e) => settitle_ar(e.target.value)}
           />
         </div>
-        <div className="addProductItem">
+        <div className="addProductItem" style={{ width: "100%" }}>
           <label>Image Title(English)</label>
-          <input
-            type="text"
-            placeholder="Hotel Title(English)"
-            name="title_en"
+          <ReactQuill
+            theme="snow"
+            modules={modules}
+            placeholder="Content goes here..."
+            onChange={settitle_en}
             value={title_en}
-            onChange={(e) => settitle_en(e.target.value)}
           />
         </div>
 
