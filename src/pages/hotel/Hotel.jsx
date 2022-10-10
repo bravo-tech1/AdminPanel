@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 export default function State() {
   const [city_id, setcity_id] = useState();
   const [data, setData] = useState([]);
+  const [showHotel, setShowHotel] = useState(true);
   const [hotel_name_en, sethotel_name_en] = useState();
   const [hotel_name_ar, sethotel_name_ar] = useState();
   const [hotel_location_en, sethotel_location_en] = useState();
@@ -26,6 +27,7 @@ export default function State() {
         sethotel_location_ar(update[0].hotel_location_ar);
         setlocation_url(update[0].location_url);
         sethotel_image(update[0].hotel_image);
+        setShowHotel(update[0].hotel_show);
       });
   }, []);
 
@@ -47,6 +49,7 @@ export default function State() {
     formData.append("hotel_location_en", hotel_location_en);
     formData.append("hotel_location_ar", hotel_location_ar);
     formData.append("location_url", location_url);
+    formData.append("hotel_show", showHotel ? "yes" : "no");
     formData.append("hotel_image", hotel_image);
 
     axios
@@ -147,6 +150,15 @@ export default function State() {
               id="file"
               multiple
               onChange={(e) => sethotel_image(e.target.files.item(0))}
+            />
+          </div>
+          <div className="show">
+            <label htmlFor="show">Show Hotel</label>
+            <input
+              id="show"
+              type="checkbox"
+              checked={showHotel}
+              onChange={(e) => setShowHotel(!showHotel)}
             />
           </div>
           <button className="addProductButton" type="submit">

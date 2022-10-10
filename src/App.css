@@ -55,3 +55,8 @@
     background-color: #a8bbbf;
   }
 
+.show label{
+    color: #3bb077 !important;
+    font-weight: bold;
+    padding-right: 10px ;
+}

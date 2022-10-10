@@ -5,6 +5,7 @@ import Loading from "../../components/Loading/Loading.jsx";
 
 export default function NewState() {
   const [city_id, setcity_id] = useState();
+  const [showHotel, setShowHotel] = useState(true);
   const [data, setData] = useState([]);
   const [hotel_name_en, sethotel_name_en] = useState();
   const [hotel_name_ar, sethotel_name_ar] = useState();
@@ -32,6 +33,7 @@ export default function NewState() {
     formData.append("hotel_location_en", hotel_location_en);
     formData.append("hotel_location_ar", hotel_location_ar);
     formData.append("location_url", location_url);
+    formData.append("hotel_show", showHotel ? "yes" : "no");
     formData.append("hotel_image", hotel_image);
 
     axios
@@ -67,6 +69,7 @@ export default function NewState() {
             {stateTitle}
           </select>
         </div>
+
         <div className="addProductItem">
           <label>Hotel Title(Arabic)</label>
           <input
@@ -126,6 +129,16 @@ export default function NewState() {
             onChange={(e) => sethotel_image(e.target.files.item(0))}
           />
         </div>
+        <div className="show">
+          <label htmlFor="show">Show Hotel</label>
+          <input
+            id="show"
+            type="checkbox"
+            checked={showHotel}
+            onChange={(e) => setShowHotel(!showHotel)}
+          />
+        </div>
+
         <button className="addProductButton" type="submit">
           Create
         </button>
