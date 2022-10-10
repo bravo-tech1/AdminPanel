@@ -27,7 +27,7 @@ export default function State() {
         sethotel_location_ar(update[0].hotel_location_ar);
         setlocation_url(update[0].location_url);
         sethotel_image(update[0].hotel_image);
-        setShowHotel(update[0].hotel_show ? "yes" : "no");
+        setShowHotel(update[0].hotel_show === "yes" ? true : false);
       });
   }, []);
 
