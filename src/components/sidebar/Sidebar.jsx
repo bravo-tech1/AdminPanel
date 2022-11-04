@@ -33,6 +33,12 @@ export default function Sidebar() {
                 Website Image
               </li>
             </Link>
+            <Link to="/websitevideo" className="link">
+              <li className="sidebarListItem newTitle">
+                <PhotoSizeSelectActualIcon className="sidebarIcon" />
+                Website Video
+              </li>
+            </Link>
             <Link to="/departments" className="link">
               <li className="sidebarListItem newTitle">
                 <InventoryIcon className="sidebarIcon" />
