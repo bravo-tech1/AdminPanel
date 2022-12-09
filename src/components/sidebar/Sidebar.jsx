@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DomainIcon from "@mui/icons-material/Domain";
 import LocationCityRoundedIcon from "@mui/icons-material/LocationCityRounded";
 import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
+import MapIcon from "@mui/icons-material/Map";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -135,6 +136,19 @@ export default function Sidebar() {
                 New Deatils
               </li>
             </Link>
+            <Link to="/otherdeatils" className="link">
+              <li className="sidebarListItem newTitle">
+                <MapIcon className="sidebarIcon" />
+                Other Deatils
+              </li>
+            </Link>
+            <Link to="/otherdeatils/create" className="link">
+              <li className="sidebarListItem new">
+                <AddIcon className="sidebarIcon" />
+                New other deatils
+              </li>
+            </Link>
+
             <Link to="/packagesvideo" className="link">
               <li className="sidebarListItem newTitle">
                 <InventoryIcon className="sidebarIcon" />

@@ -4,7 +4,7 @@ import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import WebsiteImage from "./pages/WebsiteImage/WebsiteImage";
-import WebsiteVideo from './pages/websiteVedio/WebsiteVedio';
+import WebsiteVideo from "./pages/websiteVedio/WebsiteVedio";
 import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
@@ -30,6 +30,7 @@ import PackagesVideoList from "./pages/packageVedioLIst/PackagesVedioList";
 import NewPackVideo from "./pages/NewPackageVedio/NewPackVideo";
 import DepartmentList from "./pages/DepartmentLIst/DepartmentList";
 import NewDepartment from "./pages/NewDepartment/NewDepartment";
+import NewOtherDeatils from "./pages/NewOtherDeatils/NewOtherDetails";
 
 function App() {
   return (
@@ -110,6 +111,17 @@ function App() {
           <Route path="/detail/update/:detaillId">
             <Deatil />
           </Route>
+          <Route path="/otherdetails/create">
+            <NewDeatils />
+          </Route>
+          <Route path="/otherdeatils/create">
+            <NewOtherDeatils />
+          </Route>
+
+          <Route path="/detail/update/:detaillId">
+            <Deatil />
+          </Route>
+
           <Route path="/packagesvideo">
             <PackagesVideoList />
           </Route>
