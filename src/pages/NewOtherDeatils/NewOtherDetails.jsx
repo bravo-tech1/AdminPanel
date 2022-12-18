@@ -1,36 +1,49 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
-
-import parse from "html-react-parser";
-
 import { LoadScript, GoogleMap, Polygon } from "@react-google-maps/api";
+import "./style.css";
 
 export default function NewOtherDeatils() {
   // States
   const [detailsId, setDetailsId] = React.useState();
   const [data, setData] = useState([]);
-
   const [loading, SetLoading] = useState(false);
-  const [inputFields, setInputFields] = useState([{ title: "", desc: "" }]);
-  const [inputFieldsIncluded, setInputFieldsIncluded] = useState([
-    { titleI: "", descI: "" },
-  ]);
-  const [inputFieldsEx, setInputFieldsEx] = useState([
-    { titleE: "", descE: "" },
-  ]);
-  const [height, setHight] = useState(0);
-  const [overflow, setOverFlow] = useState(true);
-  const [filedsShow, setFiledsShow] = useState("city");
+  const [IncTitle, setIncTitle] = useState("");
+  const [IncTitleAr, setIncTitleAr] = useState("");
+  const [IncDesc, setIncDesc] = useState("");
+  const [IncDescAr, setIncDescAr] = useState("");
+  const [ExTitle, setExTitle] = useState("");
+  const [ExTitleAr, setExTitleAr] = useState("");
+  const [ExDesc, setExDesc] = useState("");
+  const [ExDescAr, setExDescAr] = useState("");
+  const [ItiTitle, setItiTitle] = useState("");
+  const [ItiTitleAr, setItiTitleAr] = useState("");
+  const [ItiDesc, setItiDesc] = useState("");
+  const [ItiDescAr, setItiDescAr] = useState("");
+
+  const [showMap, setShowMap] = useState("");
+
+  const showMapConfirm = showMap.find((x) => x.type === "Location");
+  console.log(showMapConfirm);
 
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/package/show")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setData(data);
       });
   }, []);
+
+  useEffect(() => {
+    fetch(" https://test.emkanfinances.net/api/otherdetail/show ")
+      .then((res) => res.json())
+      .then((data) => {
+        setShowMap(
+          data.filter((item) => item.package_id === Number(detailsId))
+        );
+      });
+  }, [detailsId]);
 
   const detailsTitle = data.map((item) => (
     <option value={item.id}>{item.details_title_en}</option>
@@ -82,83 +95,89 @@ export default function NewOtherDeatils() {
 
   // Submit Data To Server
 
-  const uploadToServer = (e) => {
+  const uploadToServer = async (e) => {
     e.preventDefault();
     SetLoading(true);
     const formData = new FormData();
+
+    const ExData = new FormData();
+    const itenData = new FormData();
+    const locationData = new FormData();
+    // Included Data
     formData.append("package_id", detailsId);
-    formData.append("Included[]", inputFieldsIncluded);
-    formData.append("Excluded[]", inputFieldsEx);
-    formData.append("Itinerary[]", inputFields);
-    formData.append("location[]", path);
-    axios({
-      url: `https://test.emkanfinances.net/api/otherdetail/insert`,
-      method: "POST",
-      data: formData,
-    })
+    formData.append("title_en", IncTitle);
+    formData.append("title_ar", IncTitleAr);
+    formData.append("description_en", IncDesc);
+    formData.append("description_ar", IncDescAr);
+    // Excluded Data
+    formData.append("type", "Included");
+    ExData.append("package_id", detailsId);
+    ExData.append("title_en", ExTitle);
+    ExData.append("title_ar", ExTitleAr);
+    ExData.append("description_en", ExDesc);
+    ExData.append("description_ar", ExDescAr);
+    ExData.append("type", "Excluded");
+    // Itinerary
+    itenData.append("package_id", detailsId);
+    itenData.append("title_en", ItiTitle);
+    itenData.append("title_ar", ItiTitleAr);
+    itenData.append("description_en", ItiDesc);
+    itenData.append("description_ar", ItiDescAr);
+    itenData.append("type", "Itinerary");
+    // Location
+    locationData.append("package_id", detailsId);
+    path.forEach((i) => locationData.append("values1[]", i.lat));
+    path.forEach((i) => locationData.append("keys1[]", i.lat));
+    path.forEach((i) => locationData.append("keys2[]", i.lat));
+    path.forEach((i) => locationData.append("values2[]", i.lng));
+    locationData.append("type", "location");
+    axios
+      .post(`https://test.emkanfinances.net/api/otherdetail/create`, formData)
       .then((response) => {
-        if (response.status === 200) {
-          window.location.href = "/otherdeatils";
+        if (response.status === 201) {
+          axios
+            .post(
+              `https://test.emkanfinances.net/api/otherdetail/create`,
+              ExData
+            )
+            .then((response) => {
+              if (response.status === 201) {
+                axios
+                  .post(
+                    `https://test.emkanfinances.net/api/otherdetail/create`,
+                    itenData
+                  )
+                  .then((response) => {
+                    if (response.status === 201) {
+                      axios
+                        .post(
+                          `https://test.emkanfinances.net/api/otherdetail/create-location`,
+                          locationData
+                        )
+                        .then((response) => {
+                          if (response.status === 200) {
+                            window.location.pathname = "/otherdeatils";
+                          }
+                        });
+                    }
+                  });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  // City
-  const addFields = () => {
-    let newfield = { title: "", desc: "" };
-    setInputFields([...inputFields, newfield]);
-  };
-
-  const handleFormChange = (index, event) => {
-    let data = [...inputFields];
-    data[index][event.target.name] = event.target.value;
-    setInputFields(data);
-  };
-  const removeFields = (index) => {
-    let data = [...inputFields];
-    data.splice(index, 1);
-    setInputFields(data);
-  };
-  // Included
-  const addFieldsI = () => {
-    let newfield = { titleI: "", descI: "" };
-    setInputFieldsIncluded([...inputFieldsIncluded, newfield]);
-  };
-
-  const handleFormChangeI = (index, event) => {
-    let data = [...inputFieldsIncluded];
-    data[index][event.target.name] = event.target.value;
-    setInputFieldsIncluded(data);
-  };
-  const removeFieldsI = (index) => {
-    let data = [...inputFieldsIncluded];
-    data.splice(index, 1);
-    setInputFieldsIncluded(data);
-  };
-  // Exclude
-  const addFieldsE = () => {
-    let newfield = { titleE: "", descE: "" };
-    setInputFieldsEx([...inputFieldsEx, newfield]);
-  };
-
-  const handleFormChangeE = (index, event) => {
-    let data = [...inputFieldsEx];
-    data[index][event.target.name] = event.target.value;
-    setInputFieldsEx(data);
-  };
-  const removeFieldsE = (index) => {
-    let data = [...inputFieldsEx];
-    data.splice(index, 1);
-    setInputFieldsEx(data);
-  };
 
   return (
     <div className="app p-5 product" style={{ position: "relative" }}>
       <form onSubmit={(e) => uploadToServer(e)} encType="multipart/form-data">
         <div className="newUserItem">
-          <label>Choose Deatil</label>
+          <label>Choose Package</label>
           <select
             className="newUserSelect"
             name="state_id"
@@ -173,218 +192,182 @@ export default function NewOtherDeatils() {
             {detailsTitle}
           </select>
         </div>
-        <div
-          className="abs"
-          style={{
-            position: "absolute",
-            background: "white",
-            bottom: "0",
-            height: `${height}%`,
-            transition: "0.3s",
-            width: "99%",
-            overflow: overflow ? "hidden" : "visible",
-            zIndex: 1,
-          }}
-        >
-          <p
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "10px",
-              fontSize: "30px",
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              setHight(0);
-              setOverFlow(true);
-            }}
-          >
-            X
-          </p>
-
-          {filedsShow === "city"
-            ? inputFields.map((input, index) => {
-                return (
-                  <div className="form-inline" key={index}>
-                    <input
-                      name="title"
-                      placeholder="Title"
-                      value={input.title}
-                      onChange={(event) => handleFormChange(index, event)}
-                    />
-                    <input
-                      name="desc"
-                      placeholder="Description"
-                      value={input.desc}
-                      onChange={(event) => handleFormChange(index, event)}
-                    />
-                    {index !== 0 && (
-                      <button
-                        type="button"
-                        className="remove button"
-                        onClick={() => removeFields(index)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="button"
-                      onClick={addFields}
-                    >
-                      Add More..
-                    </button>
-                  </div>
-                );
-              })
-            : filedsShow === "inc"
-            ? inputFieldsIncluded.map((input, index) => {
-                return (
-                  <div className="form-inline" key={index}>
-                    <input
-                      name="titleI"
-                      placeholder="Title"
-                      value={input.titleI}
-                      onChange={(event) => handleFormChangeI(index, event)}
-                    />
-                    <input
-                      name="descI"
-                      placeholder="Description"
-                      value={input.descI}
-                      onChange={(event) => handleFormChangeI(index, event)}
-                    />
-                    {index !== 0 && (
-                      <button
-                        type="button"
-                        className="remove button"
-                        onClick={() => removeFieldsI(index)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="button"
-                      onClick={addFieldsI}
-                    >
-                      Add More..
-                    </button>
-                  </div>
-                );
-              })
-            : filedsShow === "ex"
-            ? inputFieldsEx.map((input, index) => {
-                return (
-                  <div className="form-inline" key={index}>
-                    <input
-                      name="titleE"
-                      placeholder="Title"
-                      value={input.titleE}
-                      onChange={(event) => handleFormChangeE(index, event)}
-                    />
-                    <input
-                      name="descE"
-                      placeholder="Description"
-                      value={input.descE}
-                      onChange={(event) => handleFormChangeE(index, event)}
-                    />
-                    {index !== 0 && (
-                      <button
-                        type="button"
-                        className="remove button"
-                        onClick={() => removeFieldsE(index)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="button"
-                      onClick={addFieldsE}
-                    >
-                      Add More..
-                    </button>
-                  </div>
-                );
-              })
-            : "no data"}
-
-          <p
-            style={{
-              fontSize: "30px",
-              cursor: "pointer",
-              width: "fit-content",
-            }}
-            className="button"
-            onClick={() => {
-              setHight(0);
-              setOverFlow(true);
-            }}
-          >
-            Close
-          </p>
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="inc">Included Title</label>
+            <input
+              className="form-control"
+              id="inc"
+              onChange={(e) => setIncTitle(e.target.value)}
+              value={IncTitle}
+              placeholder="Included Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="incD">Included Description</label>
+            <input
+              className="form-control"
+              id="incD"
+              onChange={(e) => setIncDesc(e.target.value)}
+              value={IncDesc}
+              placeholder="Included Description.."
+              required
+            />
+          </div>
         </div>
-        <div style={{ display: "block" }}>
-          <button
-            type="button"
-            className="button addProductButton"
-            onClick={() => {
-              setFiledsShow("city");
-              setHight(100);
-            }}
-          >
-            Cities
-          </button>
-          <button
-            type="button"
-            className="button addProductButton"
-            onClick={() => {
-              setFiledsShow("inc");
-              setHight(100);
-            }}
-          >
-            Indcluded
-          </button>
-          <button
-            type="button"
-            className="button addProductButton"
-            onClick={() => {
-              setFiledsShow("ex");
-              setHight(100);
-            }}
-          >
-            Excluded
-          </button>
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="incAr">Included Title(Arabic)</label>
+            <input
+              className="form-control"
+              id="incAr"
+              onChange={(e) => setIncTitleAr(e.target.value)}
+              value={IncTitleAr}
+              placeholder="Included Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="incDAR">Included Description(Arabic)</label>
+            <input
+              className="form-control"
+              id="incDAR"
+              onChange={(e) => setIncDescAr(e.target.value)}
+              value={IncDescAr}
+              placeholder="Included Description.."
+              required
+            />
+          </div>
         </div>
-        <div style={{ width: "100%", height: "600px" }}>
-          <LoadScript
-            id="script-loader"
-            googleMapsApiKey=""
-            language="en"
-            region="us"
-          >
-            <GoogleMap
-              mapContainerClassName="App-map"
-              center={{ lat: 52.52047739093263, lng: 13.36653284549709 }}
-              zoom={12}
-              version="weekly"
-              on
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="Ex">Excluded Title</label>
+            <input
+              className="form-control"
+              id="Ex"
+              onChange={(e) => setExTitle(e.target.value)}
+              value={ExTitle}
+              placeholder="Excluded Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="EXD">Excluded Description</label>
+            <input
+              className="form-control"
+              id="EXD"
+              onChange={(e) => setExDesc(e.target.value)}
+              value={ExDesc}
+              placeholder="Excluded Description.."
+              required
+            />
+          </div>
+        </div>
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="ExAR">Excluded Title(Arabic)</label>
+            <input
+              className="form-control"
+              id="ExAR"
+              onChange={(e) => setExTitleAr(e.target.value)}
+              value={ExTitleAr}
+              placeholder="Excluded Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="EXDAr">Excluded Description(Arabic)</label>
+            <input
+              className="form-control"
+              id="EXDAr"
+              onChange={(e) => setExDescAr(e.target.value)}
+              value={ExDescAr}
+              placeholder="Excluded Description.."
+              required
+            />
+          </div>
+        </div>
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="Iti">Itinerary Title</label>
+            <input
+              className="form-control"
+              id="Iti"
+              onChange={(e) => setItiTitle(e.target.value)}
+              value={ItiTitle}
+              placeholder="Itinerary Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="itiD">Itinerary Description</label>
+            <input
+              className="form-control"
+              id="itiD"
+              onChange={(e) => setItiDesc(e.target.value)}
+              value={ItiDesc}
+              placeholder="Excluded Description.."
+              required
+            />
+          </div>
+        </div>
+        <div className="d-flex align-items-center flex-wrap">
+          <div className="newUserItem">
+            <label htmlFor="ItiAr">Itinerary Title(Arabic)</label>
+            <input
+              className="form-control"
+              id="ItiAr"
+              onChange={(e) => setItiTitleAr(e.target.value)}
+              value={ItiTitleAr}
+              placeholder="Itinerary Title.."
+              required
+            />
+          </div>
+          <div className="newUserItem">
+            <label htmlFor="itiDAr">Itinerary Description(Arabic)</label>
+            <input
+              className="form-control"
+              id="itiDAr"
+              onChange={(e) => setItiDescAr(e.target.value)}
+              value={ItiDescAr}
+              placeholder="Excluded Description.."
+              required
+            />
+          </div>
+        </div>
+
+        {!showMapConfirm && (
+          <div style={{ width: "100%", height: "600px" }}>
+            <LoadScript
+              id="script-loader"
+              googleMapsApiKey=""
+              language="en"
+              region="us"
             >
-              <Polygon
-                // Make the Polygon editable / draggable
-                editable
-                draggable
-                path={path}
-                // Event used when manipulating and adding points
-                onMouseUp={onEdit}
-                // Event used when dragging the whole Polygon
-                onDragEnd={onEdit}
-                onLoad={onLoad}
-                onUnmount={onUnmount}
-              />
-            </GoogleMap>
-          </LoadScript>
-        </div>
+              <GoogleMap
+                mapContainerClassName="App-map"
+                center={{ lat: 52.52047739093263, lng: 13.36653284549709 }}
+                zoom={12}
+                version="weekly"
+                on
+              >
+                <Polygon
+                  // Make the Polygon editable / draggable
+                  editable
+                  draggable
+                  path={path}
+                  // Event used when manipulating and adding points
+                  onMouseUp={onEdit}
+                  // Event used when dragging the whole Polygon
+                  onDragEnd={onEdit}
+                  onLoad={onLoad}
+                  onUnmount={onUnmount}
+                />
+              </GoogleMap>
+            </LoadScript>
+          </div>
+        )}
         <button className="addProductButton" type="submit">
           Create
         </button>

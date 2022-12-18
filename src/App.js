@@ -31,6 +31,8 @@ import NewPackVideo from "./pages/NewPackageVedio/NewPackVideo";
 import DepartmentList from "./pages/DepartmentLIst/DepartmentList";
 import NewDepartment from "./pages/NewDepartment/NewDepartment";
 import NewOtherDeatils from "./pages/NewOtherDeatils/NewOtherDetails";
+import OtherDetails from "./pages/OtherDetails/OtherDetails";
+import OtherDetailPage from "./pages/OtherDetailsPage/OtherDetailPage";
 
 function App() {
   return (
@@ -111,15 +113,15 @@ function App() {
           <Route path="/detail/update/:detaillId">
             <Deatil />
           </Route>
-          <Route path="/otherdetails/create">
-            <NewDeatils />
+          <Route exact path="/otherdeatils">
+            <OtherDetails />
           </Route>
           <Route path="/otherdeatils/create">
             <NewOtherDeatils />
           </Route>
 
-          <Route path="/detail/update/:detaillId">
-            <Deatil />
+          <Route path="/otherdeatils/update/:otherdeatilsId">
+            <OtherDetailPage />
           </Route>
 
           <Route path="/packagesvideo">
