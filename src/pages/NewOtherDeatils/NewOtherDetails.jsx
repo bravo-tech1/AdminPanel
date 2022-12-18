@@ -22,11 +22,6 @@ export default function NewOtherDeatils() {
   const [ItiDesc, setItiDesc] = useState("");
   const [ItiDescAr, setItiDescAr] = useState("");
 
-  const [showMap, setShowMap] = useState("");
-
-  const showMapConfirm = showMap.find((x) => x.type === "Location");
-  console.log(showMapConfirm);
-
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/package/show")
       .then((res) => res.json())
@@ -35,15 +30,15 @@ export default function NewOtherDeatils() {
       });
   }, []);
 
-  useEffect(() => {
-    fetch(" https://test.emkanfinances.net/api/otherdetail/show ")
-      .then((res) => res.json())
-      .then((data) => {
-        setShowMap(
-          data.filter((item) => item.package_id === Number(detailsId))
-        );
-      });
-  }, [detailsId]);
+  // useEffect(() => {
+  //   fetch(" https://test.emkanfinances.net/api/otherdetail/show ")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setShowMap(
+  //         data.filter((item) => item.package_id === Number(detailsId))
+  //       );
+  //     });
+  // }, [detailsId]);
 
   const detailsTitle = data.map((item) => (
     <option value={item.id}>{item.details_title_en}</option>
@@ -337,7 +332,7 @@ export default function NewOtherDeatils() {
           </div>
         </div>
 
-        {!showMapConfirm && (
+        {
           <div style={{ width: "100%", height: "600px" }}>
             <LoadScript
               id="script-loader"
@@ -367,7 +362,7 @@ export default function NewOtherDeatils() {
               </GoogleMap>
             </LoadScript>
           </div>
-        )}
+        }
         <button className="addProductButton" type="submit">
           Create
         </button>
