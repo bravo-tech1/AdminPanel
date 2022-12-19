@@ -47,7 +47,7 @@ export default function NewOtherDeatils() {
       )
       .then((response) => {
         if (response === 200) {
-          window.location.pathname = "/other";
+          window.location.pathname = "/otherdeatils";
         }
       })
       .catch((error) => {
