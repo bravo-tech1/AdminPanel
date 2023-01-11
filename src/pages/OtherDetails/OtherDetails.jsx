@@ -11,13 +11,12 @@ export default function OtherDetails() {
 
   const location = data.filter((item) => item.type === "Location");
 
+  console.log(allPack);
+
   function getPackageTitle(id) {
     const title = allPack.filter((item) => item.id === id);
-    return title[0].hotel_name_en;
+    return title[0] ? title[0].hotel_name_en : "Loading...";
   }
-
-  // const getKeys = data.filter(item => item.package_id)
-  // const getTheSamePackage = location.find(item => item )
 
   const handleDelete = async (id) => {
     await axios
