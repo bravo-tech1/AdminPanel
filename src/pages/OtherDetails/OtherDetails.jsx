@@ -11,6 +11,11 @@ export default function OtherDetails() {
 
   const location = data.filter((item) => item.type === "Location");
 
+  function getPackageTitle(id) {
+    const title = allPack.filter((item) => item.id === id);
+    return title[0].hotel_name_en;
+  }
+
   // const getKeys = data.filter(item => item.package_id)
   // const getTheSamePackage = location.find(item => item )
 
@@ -44,7 +49,7 @@ export default function OtherDetails() {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            {params.row.package_id}
+            {getPackageTitle(params.row.package_id)}
             {/* {allPack
               .filter((item) => item.id === params.row.package_id)
               .map((item) => item.hotel_name_en)} */}
