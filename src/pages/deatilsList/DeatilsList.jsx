@@ -9,7 +9,7 @@ import HTMLReactParser from "html-react-parser";
 
 export default function DeatilsList() {
   const [data, setData] = useState([]);
-  const [serviceData, setServicData] = useState([]);
+  const [allPack, setPackages] = useState([]);
 
   const handleDelete = async (id) => {
     await axios
@@ -18,6 +18,11 @@ export default function DeatilsList() {
         setData(data.filter((el) => el.id !== id));
       });
   };
+
+  function getPackageTitle(id) {
+    const title = allPack.filter((item) => item.id === id);
+    return title[0] ? title[0].hotel_name_en : "Loading...";
+  }
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/detail/show")
       .then((res) => res.json())
@@ -26,7 +31,7 @@ export default function DeatilsList() {
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/package/show")
       .then((res) => res.json())
-      .then((data) => setServicData(data));
+      .then((data) => setPackages(data));
   }, []);
 
   const columns = [
@@ -36,7 +41,12 @@ export default function DeatilsList() {
       headerName: "Package",
       width: 150,
       renderCell: (params) => {
-        return <div className="productListItem">{params.row.package_id}</div>;
+        return (
+          <div className="productListItem">
+            {" "}
+            {getPackageTitle(params.row.package_id)}
+          </div>
+        );
       },
     },
 

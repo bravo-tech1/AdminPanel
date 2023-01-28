@@ -8,6 +8,12 @@ import { useEffect } from "react";
 
 export default function UserList() {
   const [data, setData] = useState([]);
+  const [stateData, setStateData] = useState([]);
+
+  function getStateTitle(id) {
+    const title = stateData.filter((item) => item.id === id);
+    return title[0] ? title[0].state_title_en : "Loading...";
+  }
 
   const handleDelete = async (id) => {
     await axios
@@ -16,6 +22,11 @@ export default function UserList() {
         setData(data.filter((el) => el.id !== id));
       });
   };
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/state/show")
+      .then((res) => res.json())
+      .then((data) => setStateData(data));
+  }, []);
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/city/show")
       .then((res) => res.json())
@@ -29,7 +40,11 @@ export default function UserList() {
       headerName: "State",
       width: 200,
       renderCell: (params) => {
-        return <div className="userListUser">{params.row.state_id}</div>;
+        return (
+          <div className="userListUser">
+            {getStateTitle(params.row.state_id)}
+          </div>
+        );
       },
     },
     {

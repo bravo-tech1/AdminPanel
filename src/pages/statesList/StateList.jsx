@@ -10,6 +10,11 @@ export default function ProductList() {
   const [data, setData] = useState([]);
   const [serviceData, setServicData] = useState([]);
 
+  function getStateTitle(id) {
+    const title = serviceData.filter((item) => item.id === id);
+    return title[0] ? title[0].service_text_en : "Loading...";
+  }
+
   const handleDelete = async (id) => {
     await axios
       .delete(`https://test.emkanfinances.net/api/state/delete/${id}`)
@@ -35,7 +40,11 @@ export default function ProductList() {
       headerName: "Service Name",
       width: 150,
       renderCell: (params) => {
-        return <div className="productListItem">{params.row.service_id}</div>;
+        return (
+          <div className="productListItem">
+            {getStateTitle(params.row.service_id)}
+          </div>
+        );
       },
     },
     {

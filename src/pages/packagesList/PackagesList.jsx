@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function PackagesList() {
   const [data, setData] = useState([]);
-  const [serviceData, setServicData] = useState([]);
+  const [HotleName, setHotleName] = useState([]);
 
   const handleDelete = async (id) => {
     await axios
@@ -17,6 +17,10 @@ export default function PackagesList() {
         setData(data.filter((el) => el.id !== id));
       });
   };
+  function getHotleName(id) {
+    const title = HotleName.filter((item) => item.id === id);
+    return title[0] ? title[0].hotel_name_en : "Loading...";
+  }
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/package/show")
       .then((res) => res.json())
@@ -25,7 +29,7 @@ export default function PackagesList() {
   useEffect(() => {
     fetch("https://test.emkanfinances.net/api/hotel/show")
       .then((res) => res.json())
-      .then((data) => setServicData(data));
+      .then((data) => setHotleName(data));
   }, []);
 
   const columns = [
@@ -33,9 +37,13 @@ export default function PackagesList() {
     {
       field: "hotel_id",
       headerName: "Hotel",
-      width: 50,
+      width: 150,
       renderCell: (params) => {
-        return <div className="productListItem">{params.row.hotel_id}</div>;
+        return (
+          <div className="productListItem">
+            {getHotleName(params.row.hotel_id)}
+          </div>
+        );
       },
     },
     {

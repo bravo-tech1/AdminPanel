@@ -8,6 +8,14 @@ import axios from "axios";
 
 export default function ProductList() {
   const [data, setData] = useState([]);
+  const [department, setDepartment] = useState([]);
+
+  console.log(department);
+
+  function getDepartmentTitle(id) {
+    const title = department.filter((item) => item.id === id);
+    return title[0] ? title[0].dep_name_en : "Loading...";
+  }
 
   const handleDelete = async (id) => {
     await axios
@@ -21,6 +29,11 @@ export default function ProductList() {
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
+  useEffect(() => {
+    fetch("https://test.emkanfinances.net/api/Department/show")
+      .then((res) => res.json())
+      .then((data) => setDepartment(data));
+  }, []);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -30,7 +43,7 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <div className="productListItem serviceNameC">
-            {params.row.department_id}
+            {getDepartmentTitle(params.row.department_id)}
           </div>
         );
       },
